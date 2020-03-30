@@ -1,1 +1,5 @@
-[]
+[
+  "test/summoner_test.py::test_file1_method1",
+  "test/summoner_test.py::test_file1_method2",
+  "test/summoner_test.py::TestSummoner::test_get_summoner_info"
+]

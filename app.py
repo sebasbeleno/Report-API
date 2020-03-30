@@ -4,7 +4,7 @@ from flask import jsonify
 
 app = Flask(__name__)
 
-from main import print_basic_summoner_info
+from report import print_basic_summoner_info
 
 @app.route('/')
 def hello_world():
