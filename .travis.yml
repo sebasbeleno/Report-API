@@ -1,3 +1,7 @@
 language: python
-install:
-  pip install -r requirements.txt
+install: pip install -r requirements.txt
+script:
+- pytest
+env:
+  global:
+    secure: duCZg24GEVPzSI+YhQoW0WBYeyRaqe0Cm7W/BH/o15+Nci36o96Ti0ZBFCRR36OkHgFyIshljSxsM+UipWddGWsSICmFKv+Z7W2Cx4ICKR9jMilW1QejZ2Gy9nYmW7aYixrzyE22xE4jNoPQy1UNwYEtabGmNPe0hX39I5wXuY13do6+PwDKVBhBjip3Jv9V1YWIu+2McBEsGtTDarvYKzN5DbnPe1nd18wq1KXfPV4HgJWt5h+4ocJayuIhaFYwUhBVltmQuuTZC/g/XocSv0ZdpchwxkQTObAVW5od8BRqn8ARqhfnwEPOs7SvLZDoycTdOEbC/SASN6I+H80fPyoeF7jWewGjn1M6sg2Rb/Iy87W9wPDk+NICYb+95phV1dQgD0IW9/cf9wsugpqdbUbrpFGUaC28ZFzjTS4szprOq+A0G7OnbG2FZ/WNn11CWxir0YJMJ1BV3QJIZSGWE64NMB0pZOaxAV5xv11i2gK593cn86cy4DoriNX/tcmPUHxbZwUmtaYk4lYCjCajGENlP8L3wiHtdXEu8Jn9OaNTYpm8BOiwsa7h0IylFj1u5ugP0fylJPeylGfCu+/xl4BwvQ2Q+79OHbpWk9CODs/L70/HIxIM5bxwLFf+9nlBF4DD0VENwZ2He3uJMqlwZGE8Qro96ppaLXoO3BdpISE=
