@@ -1,10 +1,19 @@
 from flask import Flask
 from markupsafe import escape
 from flask import jsonify
+from flask_cors import CORS, cross_origin
+
+from report import print_basic_summoner_info
 
 app = Flask(__name__)
 
-from report import print_basic_summoner_info
+app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
+app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app, support_credentials=True)
+
+@cross_origin(supports_credentials=True)
+
+
 
 @app.route('/')
 def hello_world():
