@@ -1,34 +1,43 @@
+"""
+    Server core and API handdle
+"""
 from flask import Flask
-from markupsafe import escape
-from flask import jsonify
 from flask_cors import CORS, cross_origin
-
+from markupsafe import escape
 from report import print_basic_summoner_info
 
-app = Flask(__name__)
+APP = Flask(__name__)
+APP.debug = True
+APP.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
+APP.config['CORS_HEADERS'] = 'Content-Type'
 
-app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
-app.config['CORS_HEADERS'] = 'Content-Type'
-CORS(app, support_credentials=True)
-
+CORS(APP, support_credentials=True)
 @cross_origin(supports_credentials=True)
 
-
-
-@app.route('/')
+@APP.route('/')
 def hello_world():
-    return "Hi! This is a internal server. Please if you dont know what is this, please close this window. Thanks"
+    """
+        Mensaje al entrar en la ruta /
+    """
+    return "Report.gg"
 
-@app.route('/summoner/<region>/<summonerName>')
-def fetch_summoner_info(region, summonerName):
-
-    summonerName = escape(summonerName)
+@APP.route('/summoner/<region>/<summoner_name>')
+def fetch_summoner_info(region, summoner_name):
+    """
+        Hacer fetch de la información básica
+        de un invocador
+    """
+    summoner_name = escape(summoner_name)
     region = escape(region)
     region = region.upper()
 
-    summoner_info = print_basic_summoner_info(summonerName, region)
+    summoner_info = print_basic_summoner_info(summoner_name, region)
 
-    #TODO: Terminar de jugar con los datos xd
+    #Pop _id from DB
+    summoner_info.pop('_id')
 
     return summoner_info
 
+
+if __name__ == "__main__":
+    APP.run(debug=True)

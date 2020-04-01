@@ -2,3 +2,4 @@ cassiopeia
 Flask
 console-logging
 markupsafe
+pymongo

@@ -1,9 +1,6 @@
 """
- This data is usted for
- test the API
+ Estos datos son usados
+ para testar la API en pytest.
 """
 
 SUMMONER_NAME = "JusBel"
-
-#TODO: Add case of unknow summoner
-
