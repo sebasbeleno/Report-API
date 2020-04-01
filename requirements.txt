@@ -2,4 +2,4 @@ cassiopeia
 Flask
 console-logging
 markupsafe
-pymongo
+pymongo[srv]

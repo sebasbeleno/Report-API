@@ -2,9 +2,11 @@
     Este modulo establece una conección
     con la base de datos en MongoDB
 """
+import os
 import pymongo
-
-MY_CLIENT = pymongo.MongoClient("mongodb://localhost:27017/")
+SERVER_KEY = os.environ['SERVER_KEY']
+DATA_URI = "mongodb+srv://admin:{server_key}@reportgg-4mkhr.gcp.mongodb.net/test?retryWrites=true&w=majority".format(server_key=SERVER_KEY)
+MY_CLIENT = pymongo.MongoClient(DATA_URI)
 
 REPORT_DB = MY_CLIENT["report"]
 
