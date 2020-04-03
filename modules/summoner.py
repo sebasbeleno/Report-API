@@ -7,8 +7,13 @@ import cassiopeia
 from cassiopeia import Summoner
 from db import mongo, find_summoner, if_summoner_exist
 from .league import get_summoner_league_entries
-
+from . import match_list
 API_KEY = os.environ["API_KEY"]
+cassiopeia.apply_settings({
+    "logging": {
+        "print_calls": False,
+    }
+})
 cassiopeia.set_riot_api_key(API_KEY)
 
 def get_basic_summoner_info(name: str, region: str):
@@ -33,6 +38,8 @@ def get_basic_summoner_info(name: str, region: str):
     }
 
     json_summoner = get_summoner_league_entries(summoner, json_summoner)
+    json_summoner = match_list.get_match_list(summoner, json_summoner)
+
     mongo.insert_summoner(json_summoner)
 
     return json_summoner
