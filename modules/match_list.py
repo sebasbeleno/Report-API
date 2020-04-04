@@ -26,7 +26,7 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
         match_count += 1
 
     list_of_match = []
-    for match in islice(id_list_of_matchs, 3):
+    for match in islice(id_list_of_matchs, 2):
 
         summoner_participant = match.participants[summoner]
         match1 = {}
@@ -104,21 +104,6 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
             "asesinatos": str(summoner_participant.stats.kills),
             "muertes": str(summoner_participant.stats.deaths),
             "asistencias": str(summoner_participant.stats.assists),
-            "items": {
-                "item1": {
-                    "nombre": summoner_participant.stats.items[0].name,
-                    "imagen": summoner_participant.stats.items[0].image.url,
-                },
-                "item2": {
-                    "nombre": summoner_participant.stats.items[1].name,
-                    "imagen": summoner_participant.stats.items[1].image.url,
-                },
-                "item3": {
-                    "nombre": summoner_participant.stats.items[2].name,
-                    "imagen": summoner_participant.stats.items[2].image.url,
-                },
-
-            },
             "nivel": str(summoner_participant.stats.level),
             "cs": str(summoner_participant.stats.total_minions_killed),
             "puntaje de vision: ": str(summoner_participant.stats.vision_score),
@@ -177,6 +162,25 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
                 },
             },
         }
+
+        items = []
+        for item in summoner_participant.stats.items:
+            if item is not None:
+                item_selected = {
+                    "name": str(item.name),
+                    "image": str(item.image.url)
+                }
+                items.append(item_selected)
+            else:
+                item_selected = {
+                    "name": "None",
+                    "image": "None"
+                }
+                items.append(item_selected)
+
+        print("-------- // ---------")
+
+        match1['items'] = items
 
         list_of_match.append(match1)
 
