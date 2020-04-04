@@ -1,4 +1,1 @@
-{
-  "test/summoner_test.py::TestSummoner": true,
-  "test/summoner_test.py::TestSummoner::test_get_summoner_info": true
-}
+{}

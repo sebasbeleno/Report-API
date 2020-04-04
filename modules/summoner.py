@@ -5,7 +5,7 @@
 import os
 import cassiopeia
 from cassiopeia import Summoner
-from db import mongo, find_summoner, if_summoner_exist
+from db import mongo, find_summoner, if_summoner_exist, insert_summoner
 from .league import get_summoner_league_entries
 from . import match_list
 API_KEY = os.environ["API_KEY"]
@@ -30,7 +30,7 @@ def get_basic_summoner_info(name: str, region: str):
         result = find_summoner.find_summuner(name)
         return result
     else:
-        summoner = Summoner(name=name, region=region)
+        summoner = call_api_summoner(name, region)
 
         json_summoner = {
             "name": str(summoner.name),
@@ -40,11 +40,34 @@ def get_basic_summoner_info(name: str, region: str):
             "uid": str(summoner.id),
         }
 
-        json_summoner = get_summoner_league_entries(summoner, json_summoner)
-        json_summoner = match_list.get_match_list(summoner, json_summoner)
+        json_summoner = call_api_summoner_entries(json_summoner, summoner)
+        json_summoner = call_api_match_list(json_summoner, summoner)
 
-        json_summoner['name'] = json_summoner['name'].lower()
-
-        mongo.insert_summoner(json_summoner)
+        insert_summoner.insert_summoner(json_summoner)
 
         return json_summoner
+
+def call_api_match_list(json_summoner, summoner):
+    """
+        Esta funcion llama returna la la lista
+        detallada de las últimas partidas del invocador
+    """
+    json_summoner = match_list.get_match_list(summoner, json_summoner)
+
+    return json_summoner
+
+def call_api_summoner_entries(json_summoner, summoner):
+    """
+        "Esta funcion retorna las entradas de liga
+        del invocador dado.
+    """
+    json_summoner = get_summoner_league_entries(summoner, json_summoner)
+
+    json_summoner['name'] = json_summoner['name'].lower()
+
+    return json_summoner
+
+def call_api_summoner(name, region):
+    summoner = Summoner(name=name, region=region)
+
+    return summoner
