@@ -5,10 +5,15 @@
 import os
 import cassiopeia
 from cassiopeia import Summoner
-from db import mongo, find_summoner, if_summoner_exist
+from db import mongo, find_summoner, if_summoner_exist, insert_summoner
 from .league import get_summoner_league_entries
-
+from . import match_list
 API_KEY = os.environ["API_KEY"]
+cassiopeia.apply_settings({
+    "logging": {
+        "print_calls": False,
+    }
+})
 cassiopeia.set_riot_api_key(API_KEY)
 
 def get_basic_summoner_info(name: str, region: str):
@@ -18,21 +23,51 @@ def get_basic_summoner_info(name: str, region: str):
         A su vez, hace una llamada al modulo "League",
         para obtener las entradas de dicho summoner.
     """
+
+    print(name)
+
     if if_summoner_exist.if_summoner_exist(name):
         result = find_summoner.find_summuner(name)
         return result
+    else:
+        summoner = call_api_summoner(name, region)
 
-    summoner = Summoner(name=name, region=region)
+        json_summoner = {
+            "name": str(summoner.name),
+            "level": str(summoner.level),
+            "iconUrl": str(summoner.profile_icon.url),
+            "accountId": str(summoner.account_id),
+            "uid": str(summoner.id),
+        }
 
-    json_summoner = {
-        "name": str(summoner.name),
-        "level": str(summoner.level),
-        "iconUrl": str(summoner.profile_icon.url),
-        "accountId": str(summoner.account_id),
-        "uid": str(summoner.id),
-    }
+        json_summoner = call_api_summoner_entries(json_summoner, summoner)
+        json_summoner = call_api_match_list(json_summoner, summoner)
 
-    json_summoner = get_summoner_league_entries(summoner, json_summoner)
-    mongo.insert_summoner(json_summoner)
+        insert_summoner.insert_summoner(json_summoner)
+
+        return json_summoner
+
+def call_api_match_list(json_summoner, summoner):
+    """
+        Esta funcion llama returna la la lista
+        detallada de las últimas partidas del invocador
+    """
+    json_summoner = match_list.get_match_list(summoner, json_summoner)
 
     return json_summoner
+
+def call_api_summoner_entries(json_summoner, summoner):
+    """
+        "Esta funcion retorna las entradas de liga
+        del invocador dado.
+    """
+    json_summoner = get_summoner_league_entries(summoner, json_summoner)
+
+    json_summoner['name'] = json_summoner['name'].lower()
+
+    return json_summoner
+
+def call_api_summoner(name, region):
+    summoner = Summoner(name=name, region=region)
+
+    return summoner

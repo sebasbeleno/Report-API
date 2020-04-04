@@ -34,6 +34,7 @@ def fetch_summoner_info(region, summoner_name):
     summoner_info = print_basic_summoner_info(summoner_name, region)
 
     #Pop _id from DB
+    print(summoner_info)
     summoner_info.pop('_id')
 
     return summoner_info
