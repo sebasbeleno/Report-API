@@ -6,15 +6,18 @@ from .mongo import get_summoner_collection
 
 SUMMONER_COLLECTION = get_summoner_collection()
 
-def if_summoner_exist(summoner_namme):
+def if_summoner_exist(summoner_name):
     """
         Esta función verifica en la base de datos
         si un invocador ya existe.
         Retorta True si existe, False si no.
     """
-    if SUMMONER_COLLECTION.count_documents({'name': summoner_namme}, limit=1):
+
+    summoner_name = summoner_name.lower()
+
+    if SUMMONER_COLLECTION.count_documents({'name': summoner_name}, limit = 1) != 0:
         print("Ya existe un invocador con ese nombre :D")
         return True
-
-    print("No existe un invocador con ese nombre :D")
-    return False
+    else:
+        print("No existe un invocador con ese nombre :D")
+        return False

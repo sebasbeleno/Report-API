@@ -23,23 +23,28 @@ def get_basic_summoner_info(name: str, region: str):
         A su vez, hace una llamada al modulo "League",
         para obtener las entradas de dicho summoner.
     """
+
+    print(name)
+
     if if_summoner_exist.if_summoner_exist(name):
         result = find_summoner.find_summuner(name)
         return result
+    else:
+        summoner = Summoner(name=name, region=region)
 
-    summoner = Summoner(name=name, region=region)
+        json_summoner = {
+            "name": str(summoner.name),
+            "level": str(summoner.level),
+            "iconUrl": str(summoner.profile_icon.url),
+            "accountId": str(summoner.account_id),
+            "uid": str(summoner.id),
+        }
 
-    json_summoner = {
-        "name": str(summoner.name),
-        "level": str(summoner.level),
-        "iconUrl": str(summoner.profile_icon.url),
-        "accountId": str(summoner.account_id),
-        "uid": str(summoner.id),
-    }
+        json_summoner = get_summoner_league_entries(summoner, json_summoner)
+        json_summoner = match_list.get_match_list(summoner, json_summoner)
 
-    json_summoner = get_summoner_league_entries(summoner, json_summoner)
-    json_summoner = match_list.get_match_list(summoner, json_summoner)
+        json_summoner['name'] = json_summoner['name'].lower()
 
-    mongo.insert_summoner(json_summoner)
+        mongo.insert_summoner(json_summoner)
 
-    return json_summoner
+        return json_summoner

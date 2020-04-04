@@ -26,7 +26,7 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
         match_count += 1
 
     list_of_match = []
-    for match in islice(id_list_of_matchs, 1):
+    for match in islice(id_list_of_matchs, 3):
 
         summoner_participant = match.participants[summoner]
         match1 = {}
@@ -116,14 +116,6 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
                 "item3": {
                     "nombre": summoner_participant.stats.items[2].name,
                     "imagen": summoner_participant.stats.items[2].image.url,
-                },
-                "item4": {
-                    "nombre": summoner_participant.stats.items[3].name,
-                    "imagen": summoner_participant.stats.items[3].image.url,
-                },
-                "item5": {
-                    "nombre": summoner_participant.stats.items[4].name,
-                    "imagen": summoner_participant.stats.items[4].image.url,
                 },
 
             },
