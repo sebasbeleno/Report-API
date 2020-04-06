@@ -12,3 +12,15 @@ def insert_summoner(summoner):
         el invocador que sea dado por parametro.
     """
     return SUMMONER_COLLECTION.insert_one(summoner)
+
+def update_summoner(summoner: dict):
+    """
+        Esta funnción actualiza un invocador
+        que sea dado por parametro.
+    """
+
+    summoner_name = summoner.get('name')
+
+    query = {"name": summoner_name}
+
+    return SUMMONER_COLLECTION.update_one(query, {"$set": summoner})
