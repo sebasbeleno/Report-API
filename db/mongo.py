@@ -5,7 +5,7 @@
 import os
 import pymongo
 SERVER_KEY = os.environ['SERVER_KEY']
-DATA_URI = "mongodb+srv://admin:{server_key}@reportgg-4mkhr.gcp.mongodb.net/test?retryWrites=true&w=majority".format(server_key=SERVER_KEY)
+DATA_URI = "mongodb+srv://develop:{server_key}@reportgg-4mkhr.gcp.mongodb.net/test?retryWrites=true&w=majority".format(server_key=SERVER_KEY)
 MY_CLIENT = pymongo.MongoClient(DATA_URI)
 
 REPORT_DB = MY_CLIENT["report"]

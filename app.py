@@ -4,7 +4,7 @@
 from flask import Flask
 from flask_cors import CORS, cross_origin
 from markupsafe import escape
-from report import print_basic_summoner_info
+from report import get_first_summoner_info, update_summoner_info
 
 APP = Flask(__name__)
 APP.debug = True
@@ -31,7 +31,7 @@ def fetch_summoner_info(region, summoner_name):
     region = escape(region)
     region = region.upper()
 
-    summoner_info = print_basic_summoner_info(summoner_name, region)
+    summoner_info = get_first_summoner_info(summoner_name, region)
 
     #Pop _id from DB
     print(summoner_info)
@@ -39,6 +39,24 @@ def fetch_summoner_info(region, summoner_name):
 
     return summoner_info
 
+@APP.route('/updateSummoner/<region>/<summoner_name>')
+def update_summoner(region, summoner_name):
+    """
+        Esta ruta actualiza el invcador dado.
+    """
+
+    summoner_name = escape(summoner_name)
+    region = escape(region)
+    region = region.upper()
+
+    updated_summoner_info = update_summoner_info(summoner_name, region)
+
+    if update_summoner_info != "Error":
+
+        return updated_summoner_info
+    else:
+        updated_summoner_info.pop('_id')
+        return update_summoner_info
 
 if __name__ == "__main__":
     APP.run(debug=True)
