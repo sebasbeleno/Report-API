@@ -59,4 +59,4 @@ def update_summoner(region, summoner_name):
         return update_summoner_info
 
 if __name__ == "__main__":
-    APP.run(debug=True)
+    APP.run()
