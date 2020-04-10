@@ -1,7 +1,7 @@
 """
     Server core and API handdle
 """
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS, cross_origin
 from markupsafe import escape
 from report import get_first_summoner_info, update_summoner_info
@@ -37,7 +37,7 @@ def fetch_summoner_info(region, summoner_name):
     print(summoner_info)
     summoner_info.pop('_id')
 
-    return summoner_info
+    return jsonify(summoner_info)
 
 @APP.route('/updateSummoner/<region>/<summoner_name>')
 def update_summoner(region, summoner_name):
@@ -53,10 +53,10 @@ def update_summoner(region, summoner_name):
 
     if update_summoner_info != "Error":
 
-        return updated_summoner_info
+        return jsonify(updated_summoner_info)
     else:
         updated_summoner_info.pop('_id')
-        return update_summoner_info
+        return jsonify(update_summoner_info)
 
 if __name__ == "__main__":
     APP.run()
