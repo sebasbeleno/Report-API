@@ -1,18 +1,26 @@
 """
     Server core and API handdle
 """
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from markupsafe import escape
 from report import get_first_summoner_info, update_summoner_info
 
-APP = Flask(__name__)
-APP.debug = True
-APP.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
-APP.config['CORS_HEADERS'] = 'Content-Type'
+def create_app():
+        
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
+    app.config['CORS_HEADERS'] = 'Content-Type'
 
-CORS(APP, support_credentials=True)
-@cross_origin(supports_credentials=True)
+
+    return app
+
+
+
+
+APP = create_app()
+
+CORS(APP)
 
 @APP.route('/')
 def hello_world():
@@ -21,14 +29,14 @@ def hello_world():
     """
     return "Report.gg"
 
-@APP.route('/summoner/<region>/<summoner_name>')
-def fetch_summoner_info(region, summoner_name):
+@APP.route('/summoner')
+def fetch_summoner_info():
     """
         Hacer fetch de la información básica
         de un invocador
     """
-    summoner_name = escape(summoner_name)
-    region = escape(region)
+    summoner_name  = request.args.get('summoner_name') 
+    region = request.args.get('region')
     region = region.upper()
 
     summoner_info = get_first_summoner_info(summoner_name, region)
@@ -39,14 +47,14 @@ def fetch_summoner_info(region, summoner_name):
 
     return jsonify(summoner_info)
 
-@APP.route('/updateSummoner/<region>/<summoner_name>')
-def update_summoner(region, summoner_name):
+@APP.route('/updateSummoner')
+def update_summoner():
     """
         Esta ruta actualiza el invcador dado.
     """
 
-    summoner_name = escape(summoner_name)
-    region = escape(region)
+    summoner_name  = request.args.get('summoner_name') 
+    region = request.args.get('region')
     region = region.upper()
 
     updated_summoner_info = update_summoner_info(summoner_name, region)
@@ -57,6 +65,3 @@ def update_summoner(region, summoner_name):
     else:
         updated_summoner_info.pop('_id')
         return jsonify(update_summoner_info)
-
-if __name__ == "__main__":
-    APP.run()
