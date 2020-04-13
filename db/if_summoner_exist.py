@@ -16,8 +16,6 @@ def if_summoner_exist(summoner_name):
     summoner_name = summoner_name.lower()
 
     if SUMMONER_COLLECTION.count_documents({'name': summoner_name}, limit = 1) != 0:
-        print("Ya existe un invocador con ese nombre :D")
         return True
     else:
-        print("No existe un invocador con ese nombre :D")
         return False

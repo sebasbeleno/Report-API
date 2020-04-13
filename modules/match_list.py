@@ -3,10 +3,12 @@
     obtejer la list de paridas de un
     invocador.
 """
+import cassiopeia as cass
 from itertools import islice
 from cassiopeia import Summoner
 from cassiopeia.data import Season
-
+from collections import Counter
+import json
 def get_match_list(summoner: Summoner, json_summoner: dict):
     """
         Obtiene información detallada del numero de
@@ -178,7 +180,6 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
                 }
                 items.append(item_selected)
 
-        print("-------- // ---------")
 
         match1['items'] = items
 
@@ -186,4 +187,36 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
 
     json_summoner['matchs'] = list_of_match
 
+    region = "LAN"
+
+    champion_id_to_name_mapping = {champion.id: champion.name for champion in cass.get_champions(region=region)}
+    champion_id_to_icon_mapping = {champion.id: champion.image.url for champion in cass.get_champions(region=region)}
+    
+
+    played_champions_name = Counter()
+
+    for match in match_history:
+        champion_id = match.participants[summoner.name].champion.id
+        played_champions_name[champion_id] += 1 
+
+    most_played_champions = []
+
+    for champion_id, count in played_champions_name.most_common(10):
+
+        champion_name = champion_id_to_name_mapping[champion_id]
+        champion_icon = champion_id_to_icon_mapping[champion_id]
+
+        campion_played = {
+            "campeon": {
+                "nombre": str(champion_name),
+                "icon": str(champion_icon)
+            },
+            "cantidad": str(count)
+        }
+
+        most_played_champions.append(campion_played)
+
+    json_summoner['campeones_mas_jugados'] = most_played_champions
+    json_summoner['numero_de_partidas'] = len(match_history)
+    
     return json_summoner

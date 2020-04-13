@@ -42,7 +42,6 @@ def fetch_summoner_info():
     summoner_info = get_first_summoner_info(summoner_name, region)
 
     #Pop _id from DB
-    print(summoner_info)
     summoner_info.pop('_id')
 
     return jsonify(summoner_info)

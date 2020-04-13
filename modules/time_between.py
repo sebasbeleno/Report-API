@@ -14,7 +14,6 @@ def time_between(last_update_string):
     delta = now - date.timedelta(minutes=30)
 
     if delta >= last_update:
-        print("Han pasado 30 mins :d")
         return True
     else:
         return False
