@@ -18,18 +18,20 @@ def create_app():
 
 
 
-APP = create_app()
+app = create_app()
 
-CORS(APP)
+app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
+app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app)
 
-@APP.route('/')
+@app.route('/')
 def hello_world():
     """
         Mensaje al entrar en la ruta /
     """
     return "Report.gg"
 
-@APP.route('/summoner')
+@app.route('/summoner')
 def fetch_summoner_info():
     """
         Hacer fetch de la información básica
@@ -46,7 +48,7 @@ def fetch_summoner_info():
 
     return jsonify(summoner_info)
 
-@APP.route('/updateSummoner')
+@app.route('/updateSummoner')
 def update_summoner():
     """
         Esta ruta actualiza el invcador dado.
