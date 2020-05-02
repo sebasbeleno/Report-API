@@ -9,6 +9,9 @@ from cassiopeia import Summoner
 from cassiopeia.data import Season
 from collections import Counter
 import json
+
+matchs_number = 10
+
 def get_match_list(summoner: Summoner, json_summoner: dict):
     """
         Obtiene información detallada del numero de
@@ -27,11 +30,18 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
         id_list_of_matchs.append(match)
         match_count += 1
 
+    win_ratio = 0
+
     list_of_match = []
-    for match in islice(id_list_of_matchs, 2):
+    for match in islice(id_list_of_matchs, matchs_number):
 
         summoner_participant = match.participants[summoner]
         match1 = {}
+
+        if summoner_participant.team.win == True:
+            win_ratio += 1
+        elif summoner_participant.team.win == False:
+            win_ratio += 0
 
         runes = summoner_participant.runes
 
@@ -218,5 +228,15 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
 
     json_summoner['campeones_mas_jugados'] = most_played_champions
     json_summoner['numero_de_partidas'] = len(match_history)
+
+    print(win_ratio)
+
+    win_ratio = win_ratio/matchs_number
+
+    print(win_ratio)
+
+    win_ratio = win_ratio*100
+
+    json_summoner['win_ratio'] = str(win_ratio)
     
     return json_summoner
