@@ -43,60 +43,12 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
         elif summoner_participant.team.win == False:
             win_ratio += 0
 
-        runes = summoner_participant.runes
-
-        summoner_runes = []
-
-        for rune in runes:
-            summoner_runes.append(rune.name)
-            summoner_runes.append(rune.image.url)
-
-
-
+        
+    
         match1 = {
             "campeon": {
                 "nombre": str(summoner_participant.champion.name),
                 "image":  str(summoner_participant.champion.image.url),
-                "runas_principales": {
-                    "1": {
-                        "nombre": summoner_runes[0],
-                        "imagen": summoner_runes[1]
-                    },
-                    "2": {
-                        "nombre": summoner_runes[2],
-                        "imagen": summoner_runes[3]
-                    },
-                    "3": {
-                        "nombre": summoner_runes[4],
-                        "imagen": summoner_runes[5]
-                    },
-                    "4": {
-                        "nombre": summoner_runes[6],
-                        "imagen": summoner_runes[7]
-                    },
-                    "5": {
-                        "nombre": summoner_runes[8],
-                        "imagen": summoner_runes[9]
-                    },
-                    "6": {
-                        "nombre": summoner_runes[10],
-                        "imagen": summoner_runes[11]
-                    },
-                },
-                "runas_adicionales": {
-                    "runa_adicionales_1": {
-                        "nombre": str(summoner_participant.stat_runes[0].name),
-                        "imagen": str(summoner_participant.stat_runes[0].image.url),
-                    },
-                    "runa_adicionales_2": {
-                        "nombre": str(summoner_participant.stat_runes[1].name),
-                        "imagen": str(summoner_participant.stat_runes[1].image.url),
-                    },
-                    "runa_adicionales_3": {
-                        "nombre": str(summoner_participant.stat_runes[2].name),
-                        "imagen": str(summoner_participant.stat_runes[2].image.url),
-                    },
-                },
                 "habilidades": {
                     "habilidad_f": {
                         "nombre": str(summoner_participant.summoner_spell_f.name),
@@ -119,60 +71,6 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
             "nivel": str(summoner_participant.stats.level),
             "cs": str(summoner_participant.stats.total_minions_killed),
             "puntaje de vision: ": str(summoner_participant.stats.vision_score),
-            "equipo_rojo": {
-                "participante1": {
-                    "nombre_de_invocador": str(match.red_team.participants[0].summoner.name),
-                    "nombre_de_campeon": str(match.red_team.participants[0].champion.name),
-                    "icono_de_campeon": str(match.red_team.participants[0].champion.image.url),
-                },
-                "participante2": {
-                    "nombre_de_invocador": str(match.red_team.participants[1].summoner.name),
-                    "nombre_de_campeon": str(match.red_team.participants[1].champion.name),
-                    "icono_de_campeon": str(match.red_team.participants[1].champion.image.url),
-                },
-                "participante3": {
-                    "nombre_de_invocador": str(match.red_team.participants[2].summoner.name),
-                    "nombre_de_campeon": str(match.red_team.participants[2].champion.name),
-                    "icono_de_campeon": str(match.red_team.participants[2].champion.image.url),
-                },
-                "participante4": {
-                    "nombre_de_invocador": str(match.red_team.participants[3].summoner.name),
-                    "nombre_de_campeon": str(match.red_team.participants[3].champion.name),
-                    "icono_de_campeon": str(match.red_team.participants[3].champion.image.url),
-                },
-                "participante5": {
-                    "nombre_de_invocador": str(match.red_team.participants[4].summoner.name),
-                    "nombre_de_campeon": str(match.red_team.participants[4].champion.name),
-                    "icono_de_campeon": str(match.red_team.participants[4].champion.image.url),
-                },
-            },
-            "equipo_azul": {
-                "participante1": {
-                    "nombre_de_invocador": str(match.blue_team.participants[0].summoner.name),
-                    "nombre_de_campeon": str(match.blue_team.participants[0].champion.name),
-                    "icono_de_campeon": str(match.blue_team.participants[0].champion.image.url),
-                },
-                "participante2": {
-                    "nombre_de_invocador": str(match.blue_team.participants[1].summoner.name),
-                    "nombre_de_campeon": str(match.blue_team.participants[1].champion.name),
-                    "icono_de_campeon": str(match.blue_team.participants[1].champion.image.url),
-                },
-                "participante3": {
-                    "nombre_de_invocador": str(match.blue_team.participants[2].summoner.name),
-                    "nombre_de_campeon": str(match.blue_team.participants[2].champion.name),
-                    "icono_de_campeon": str(match.blue_team.participants[2].champion.image.url),
-                },
-                "participante4": {
-                    "nombre_de_invocador": str(match.blue_team.participants[3].summoner.name),
-                    "nombre_de_campeon": str(match.blue_team.participants[3].champion.name),
-                    "icono_de_campeon": str(match.blue_team.participants[3].champion.image.url),
-                },
-                "participante5": {
-                    "nombre_de_invocador": str(match.blue_team.participants[4].summoner.name),
-                    "nombre_de_campeon": str(match.blue_team.participants[4].champion.name),
-                    "icono_de_campeon": str(match.blue_team.participants[4].champion.image.url),
-                },
-            },
         }
 
         items = []
@@ -192,6 +90,55 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
 
 
         match1['items'] = items
+
+        runes = summoner_participant.runes
+        summoner_runes_from_cassio = []
+
+        for rune in runes:
+            summoner_runes_from_cassio.append(rune.name)
+            summoner_runes_from_cassio.append(rune.image.url)
+        
+        summoner_runes = []
+
+
+        for i in range(0, int(len(summoner_runes_from_cassio)), 2):
+            rune_selected = {
+                "nombre": str(summoner_runes_from_cassio[i]),
+                "imagen": str(summoner_runes_from_cassio[i+1])
+            }
+            summoner_runes.append(rune_selected)
+
+
+        match1['runas_principales'] = summoner_runes
+
+
+        equipo_rojo_desde_cassio = match.red_team.participants
+
+        equipo_rojo = []
+
+        for participante_equipo_rojo in equipo_rojo_desde_cassio:
+            participante = {
+                "invocador": str(participante_equipo_rojo.summoner.name),
+                "campeon": str(participante_equipo_rojo.champion.name),
+                "icono_campeon": str(participante_equipo_rojo.champion.image.url)
+            }
+
+            equipo_rojo.append(participante)
+
+        equipo_azul_desde_cassio = match.blue_team.participants
+        equipo_azul = []
+
+        for participante_equipo_azul in equipo_azul_desde_cassio:
+            participante = {
+                "invocador": str(participante_equipo_azul.summoner.name),
+                "campeon": str(participante_equipo_azul.champion.name),
+                "icono_campeon": str(participante_equipo_azul.champion.image.url)
+            }
+
+            equipo_azul.append(participante)
+
+        match1['equipo_rojo'] = equipo_rojo
+        match1['equipo_azul'] = equipo_azul
 
         list_of_match.append(match1)
 
@@ -228,15 +175,8 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
 
     json_summoner['campeones_mas_jugados'] = most_played_champions
     json_summoner['numero_de_partidas'] = len(match_history)
-
-    print(win_ratio)
-
     win_ratio = win_ratio/matchs_number
-
-    print(win_ratio)
-
     win_ratio = win_ratio*100
-
     json_summoner['win_ratio'] = str(win_ratio)
     
     return json_summoner
