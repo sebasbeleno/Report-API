@@ -10,22 +10,53 @@ cass.apply_settings({
 })
 cass.set_riot_api_key(API_KEY)
 
-def get_champions(champion_name):
+def main(region):
+    champions = Champions(region=region)
 
-    champion = Champion(region="LAN", name=champion_name)
+    campeones = get_champions(region, champions)
 
-    print(champion.name)
-    print(champion.title)
-    for spell in champion.spells:
-        print(spell.name, spell.keywords)
-
-    print(champion.info.difficulty)
-    print(champion.passive.name)
-    print({item.name: count for item, count in champion.recommended_itemsets[0].item_sets[0].items.items()})
-    print(champion.free_to_play)
+    mejores_win = get_most_win_rates(campeones)
     
-    print(champion.win_rates)
+    print(mejores_win)
 
+
+def get_champions(region, champions):
+    
+    campeones = []
+
+    for champion in champions:
+        
+        campeon = {
+            "nombre": champion.name,
+            "imagen": champion.image.url,
+
+        }
+
+        campeones.append(campeon)
+
+    return campeones
+
+def get_most_win_rates(champions):
+    
+    win_rate  = []
+
+
+    for champion in champions:
+
+        campe = Champion(name=champion['nombre'], region="LAN")
+
+        win_ratio = campe.win_rates.get('UTILITY')
+
+        print(type(win_ratio))
+
+        campeon = {
+            "nombre": str(campe.name),
+            "win_rate": win_ratio
+        }
+
+        win_rate.append(campeon)
+    
+    return win_rate
 
 if __name__ == "__main__":
-    get_champions("Lux")
+    main('LAN')

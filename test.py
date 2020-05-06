@@ -16,3 +16,20 @@ if __name__ == "__main__":
 
     #tct = DT.datetime.strptime("05/04/2021 01:4:40", "%d/%m/%Y %H:%M:%S") #24
 
+
+
+    champion = Champion(region=region, name=champion_name)
+
+    print(champion.name)
+    print(champion.title)
+    for spell in champion.spells:
+        print(spell.name, spell.keywords)
+
+    print(champion.info.difficulty)
+    print(champion.passive.name)
+    print(champion.enemy_tips)
+    print(champion.stats.armor_per_level)
+    print({item.name: count for item, count in champion.recommended_itemsets[0].item_sets[0].items.items()})
+    print(champion.free_to_play)
+    
+    print(champion.win_rates)

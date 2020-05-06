@@ -64,7 +64,7 @@ def get_match_list(summoner: Summoner, json_summoner: dict):
             "win": str(summoner_participant.team.win),
             "linea": str(summoner_participant.lane),
             "rol": str(summoner_participant.role),
-            "kda": str(round(summoner_participant.stats.kda, 2)),
+            "kda": str(round(summoner_participant.stats.kda, 1)),
             "asesinatos": str(summoner_participant.stats.kills),
             "muertes": str(summoner_participant.stats.deaths),
             "asistencias": str(summoner_participant.stats.assists),
