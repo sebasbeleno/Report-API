@@ -1,6 +1,6 @@
 arrow==0.15.5
 cassiopeia==4.0.9
-certifi==2020.4.5.1
+certifi==2022.12.7
 chardet==3.0.4
 click==7.1.1
 console-logging==0.0.5.0
